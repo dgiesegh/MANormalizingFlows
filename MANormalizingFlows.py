@@ -1,12 +1,10 @@
 import numpy as np
 import tensorflow as tf
 from tensorflow import keras
-from tensorflow.keras import regularizers
-from tensorflow.keras import layers
 import tensorflow_probability as tfp
 
 
-class MADE(layers.Layer):
+class MADE(tf.layers.Layer):
     """
     A class representing the MADE architecture (Masked Autoencoders for Distribution Estimation, see arXiv:1502.03509).
 
@@ -176,7 +174,7 @@ def MACoupling(in_shape, n_models=2, activations=[], num_layers=1, num_nodes=128
     else:
         random_nums = []
     
-    _input = layers.Input(shape=in_shape)
+    _input = tf.layers.Input(shape=in_shape)
     
     models = []
     for i in range(n_models):
@@ -341,7 +339,7 @@ def MAConditionalCoupling(in_shape, n_params, n_models=2, activations=[], num_la
     else:
         random_nums = []
     
-    _input = layers.Input(shape=in_shape+n_params)
+    _input = tf.layers.Input(shape=in_shape+n_params)
     
     models = []
     for i in range(n_models):
@@ -444,7 +442,7 @@ class MAConditionalFlowModel(MAFlowModel):
         
         if params is not None:
             if params.shape[0] != n_points or params.shape[1] != self.n_params:
-                raise Exception("params argument of MAConditionalFlowModel.sample function must have shape (n_samples, n_params).")
+                raise Exception("params argument of MAConditionalFlowModel.sample function must have shape (n_points, n_params).")
         else:
             params = self.ITS(n_points)
         z = self.distribution.sample(n_points, seed=seed)
