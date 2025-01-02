@@ -5,13 +5,6 @@ from tensorflow.keras import regularizers
 from tensorflow.keras import layers
 import tensorflow_probability as tfp
 
-# TODO: at some point I should upgrade the param_hist modelling and sampling (kernel density estimation?)
-
-
-# Class for MADE (Masked Autoencoder for Density Estimation) Layers (i.e. masked densely connected NNs that fulfil the autoregressive property)
-
-# build: initialises all kernels, biases and masks once input shape is known
-# call: calculates forward pass through layer. conditional parameters are passed through the whole network via extra nodes
 
 class MADE(layers.Layer):
     """
