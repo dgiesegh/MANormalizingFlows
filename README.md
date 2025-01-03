@@ -1,6 +1,6 @@
 # MANormalizingFlows
 
-This repository contains a script implementing the MADE architecture (Masked Autoencoders for Distribution Estimation, see arXiv:1502.03509) as a `tf.layers.Layer`, as well as Masked Autoregressive Normalizing Flows (see arXiv:1705.07057) for conditional and non-conditional density estimation as a `tf.keras.Model`.
+This repository contains a script implementing the MADE architecture (Masked Autoencoders for Distribution Estimation, see [arXiv:1502.03509](https://arxiv.org/abs/1502.03509)) as a `tf.layers.Layer`, as well as Masked Autoregressive Normalizing Flows (see [arXiv:1705.07057](https://arxiv.org/abs/1705.07057)) for conditional and non-conditional density estimation as a `tf.keras.Model`.
 
 For example usage, see the Example jupyter notebook.
 
