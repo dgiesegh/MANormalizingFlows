@@ -266,12 +266,19 @@ class MAFlowModel(keras.Model):
         n_points: int
             number of points to sample
         """
-        
         z = self.distribution.sample(n_points)
         x, _ = self.predict(z)
         return x
     
     def infer(self, x):
+        """
+        Method returning the estimated probability density for a data space sample x.
+
+        Parameters
+        ----------
+        x: array-like
+            the data space sample whose density should be inferred
+        """
         z, log_det = self(x)
         log_density = self.distribution.log_prob(z) + log_det
         return tf.exp(log_density)
@@ -366,7 +373,7 @@ class MAConditionalFlowModel(MAFlowModel):
             number of coupling layers
         in_shape: int
             number of inputs (excluding conditional parameters)
-        param_hists: array-like
+        param_hists: list
             list of histograms giving the distributions of conditional parameters
             each histogram must be of the form [values, bin_edges] (as produced by numpy.histogram) with len(values) = len(bin_edges)-1
             number of conditional parameters is inferred form len(param_hists)
@@ -439,7 +446,6 @@ class MAConditionalFlowModel(MAFlowModel):
         params: array-like or None
             if None, values for conditional parameters are sampled from provided histograms, else must be of shape (n_points, n_params), default None
         """
-        
         if params is not None:
             if params.shape[0] != n_points or params.shape[1] != self.n_params:
                 raise Exception("params argument of MAConditionalFlowModel.sample function must have shape (n_points, n_params).")
@@ -472,6 +478,14 @@ class MAConditionalFlowModel(MAFlowModel):
         return tf.constant(np.concatenate(samples, axis=1), dtype=tf.float32)
     
     def infer(self, x):
+        """
+        Method returning the estimated probability density for a data space sample x.
+
+        Parameters
+        ----------
+        x: array-like
+            the data space sample whose density should be inferred
+        """
         z, log_det = self(x)
         log_density = self.distribution.log_prob(z[:,self.n_params:]) + log_det
         return tf.exp(log_density)
